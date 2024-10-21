@@ -1,39 +1,84 @@
-import { test, expect, request } from '@playwright/test';
+import { test, expect } from "@playwright/test";
 
-test('Create Person Profile and verify response assertions', async ({ request }) => {
-  // Define the API endpoint for creating a person profile
-  const createProfileApiEndpoint = 'https://thrive.thrive-dev.com/api/v1/people';
-
-  // Define the request body for the person profile
-  const requestBody = {
-    personProfile: {
-      firstName: 'John',
-      lastName: 'Doe',
-      phoneNumbers: [
-        {
-          phoneNumber: '1234567890',
-          preferred: true
-        }
-      ],
-      emails: [
-        {
-          email: 'john.doe@example.com',
-          preferred: true,
-          emailType: 'work'
-        }
-      ]
-    }
-  };
-
-  // Send a POST request to the create profile API endpoint
-  const response = await request.post(createProfileApiEndpoint, {
-    data: requestBody,
+test("should create a new person", async ({ request }) => {
+  // Step 1: Login to obtain the authentication token
+  const loginUrl = "https://thrive.thrive-qa.com/api/v1/login";
+  const loginResponse = await request.post(loginUrl, {
+    data: {
+      user: {
+        username: "qatesting+charly@thrivetrm.com",
+        password: "Changeme1$",
+      },
+    },
+    headers: {
+      "Content-Type": "application/json",
+    },
   });
 
-  // Assert response status
-  expect(response.status()).toBe(201);
+  expect(loginResponse.status()).toBe(200); // Ensure the login was successful
 
-  // Parse response JSON
+  const loginResponseBody = await loginResponse.json();
+  const authToken = loginResponseBody.token; // Assuming the token is returned in the login response
+
+  // Step 2: Use the token to create a new person
+  const createPersonUrl = "https://thrive.thrive-qa.com/api/v1/people";
+
+  // Define the request body
+  const requestBody = {
+    person: {
+      firstName: "testdata1",
+      lastName: "testdatal1",
+      educations: [],
+      emails: [
+        {
+          email: "testdatal092@gmail.com",
+          primary: true,
+          type: null,
+        },
+      ],
+      employments: [],
+      linkedinUrl: "",
+      names: [
+        {
+          firstName: "testdata3",
+          lastName: "testdatal3",
+          primary: true,
+          type: null,
+        },
+      ],
+      phoneNumbers: [
+        {
+          phoneNumber: "0495739485739657967",
+          primary: true,
+          type: null,
+        },
+      ],
+      socialUrls: [
+        {
+          url: "",
+          type: null,
+        },
+      ],
+    },
+  };
+
+  // Send a POST request to the create person endpoint with the authentication token
+  const response = await request.post(createPersonUrl, {
+    data: requestBody,
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${authToken}`, // Add the token to the headers
+    },
+  });
+
+  // Log the response status and body for debugging
+  console.log(`Response status: ${response.status()}`);
+  console.log(`Response body: ${await response.text()}`);
+
+  // Check the response status
+  expect(response.status()).toBe(201); // Assuming the API returns 201 Created for successful creation
+
+    // Parse response JSON
   const responseBody = await response.json();
 
   // Assert response has id property
