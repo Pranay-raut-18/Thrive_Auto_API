@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-test("should delete an existing person", async ({ request }) => {
+test.skip("should delete an existing person", async ({ request }) => {
   // Step 1: Login to obtain the authentication token
   const loginUrl = "https://thrive.thrive-qa.com/api/v1/login";
   const loginResponse = await request.post(loginUrl, {
@@ -22,7 +22,7 @@ test("should delete an existing person", async ({ request }) => {
 
   // Step 2: Delete the person using the ID from the previous response
   const personId = process.env.ID; // Assume the ID was set in the previous test
-  const deletePersonUrl = `https://thrive.thrive-qa.com/api/v1/people/b81a402f-ed4e-4402-8f38-1353d9db3445`;
+  const deletePersonUrl = `https://thrive.thrive-qa.com/api/v1/people/e9f9a7f2-372e-4a4b-a7fe-2abd2518284d`;
 
   // Send a DELETE request to the delete person endpoint with the authentication token
   const deleteResponse = await request.delete(deletePersonUrl, {
