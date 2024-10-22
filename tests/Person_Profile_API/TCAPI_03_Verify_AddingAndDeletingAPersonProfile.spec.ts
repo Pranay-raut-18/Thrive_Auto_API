@@ -42,7 +42,7 @@ test("TCAPI_03 Verify Adding and Deleting a Person Profile", async ({ request })
       educations: [],
       emails: [
         {
-          email: randomEmail, // Assign the generated random email
+          email: `testdata@gmail.com`,
           primary: true,
           type: null,
         },
@@ -78,7 +78,7 @@ test("TCAPI_03 Verify Adding and Deleting a Person Profile", async ({ request })
     data: requestBody,
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${authToken}`, // Add the token to the headers
+      Authorization: `Bearer ${authToken}`, // Add the token to the headers
     },
   });
 
@@ -102,7 +102,7 @@ test("TCAPI_03 Verify Adding and Deleting a Person Profile", async ({ request })
   // Send a DELETE request to the delete person endpoint
   const deleteResponse = await request.delete(deletePersonUrl, {
     headers: {
-      "Authorization": `Bearer ${authToken}`, // Add the token to the headers
+      Authorization: `Bearer ${authToken}`, // Add the token to the headers
     },
   });
 
