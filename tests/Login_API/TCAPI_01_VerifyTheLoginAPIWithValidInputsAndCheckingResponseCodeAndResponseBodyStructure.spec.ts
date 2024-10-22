@@ -1,6 +1,6 @@
 import { test, expect, request } from '@playwright/test';
 
-  test('Verify Login API with valid inputs and response assertions', async ({ request }) => {
+  test('TCAPI_01:- Verifying the Login API with valid inputs and checking response Code and Response Body Structure', async ({ request }) => {
     // Define the login API endpoint
     const loginApiEndpoint = 'https://thrive.thrive-dev.com/api/v1/login';
    
@@ -22,6 +22,7 @@ import { test, expect, request } from '@playwright/test';
  
     // Parse the response body to JSON
     const responseBody = await response.json();
+
     console.log("Response Body is :-     ",responseBody);
     
  

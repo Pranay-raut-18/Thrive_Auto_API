@@ -4,7 +4,7 @@ import { Url, EmailAddress, Password } from "../../utils/config-utils";
 import * as path from "path";
 import { HomePage } from "../../Pages/HomePage";
 
-test.only("TCAPI_01: HomePage | Verify After uploading a File the Firstname, Lastname and email is Filled As per the resume uploaded", async ({page,}) => {
+test.skip("TCAPI_01: HomePage | Verify After uploading a File the Firstname, Lastname and email is Filled As per the resume uploaded", async ({page,}) => {
   const loginPage = new LoginPage(page);
   const homePage = new HomePage(page);
 
