@@ -34,7 +34,7 @@ test("should create and delete a person", async ({ request }) => {
       educations: [],
       emails: [
         {
-          email: `testdata${}@gmail.com`,
+          email: `testdata@gmail.com`,
           primary: true,
           type: null,
         },
@@ -70,7 +70,7 @@ test("should create and delete a person", async ({ request }) => {
     data: requestBody,
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${authToken}`, // Add the token to the headers
+      Authorization: `Bearer ${authToken}`, // Add the token to the headers
     },
   });
 
@@ -94,7 +94,7 @@ test("should create and delete a person", async ({ request }) => {
   // Send a DELETE request to the delete person endpoint
   const deleteResponse = await request.delete(deletePersonUrl, {
     headers: {
-      "Authorization": `Bearer ${authToken}`, // Add the token to the headers
+      Authorization: `Bearer ${authToken}`, // Add the token to the headers
     },
   });
 
