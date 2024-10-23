@@ -1,9 +1,10 @@
 import { test, expect } from "@playwright/test";
-import { apiPassword, apiTestLogin } from "../../utils/config-utils";
+import { apiPassword, apiTestLogin, apiUrl } from "../../utils/config-utils";
+import { customerApi } from "../../utils/Apis";
 
 test("Get All Customers and Validate Response", async ({ request }) => {
   // Step 1: Login to obtain the authentication token
-  const loginUrl = "https://thrive.thrive-qa.com/api/v1/login";
+  const loginUrl = apiUrl;
   const loginResponse = await request.post(loginUrl, {
     data: {
       user: {
@@ -22,7 +23,7 @@ test("Get All Customers and Validate Response", async ({ request }) => {
   const authToken = loginResponseBody.token;
 
   // Step 2: Get all customers
-  const customersUrl = "https://thrive.thrive-qa.com/api/v1/customers";
+  const customersUrl = customerApi;
   const customersResponse = await request.get(customersUrl, {
     headers: {
       "Content-Type": "application/json",
