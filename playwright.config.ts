@@ -12,6 +12,8 @@ import { defineConfig, devices } from '@playwright/test';
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
+
+  //globalSetup: require.resolve('./Setupfile'),
   testDir: './tests',
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -29,6 +31,7 @@ export default defineConfig({
     // baseURL: 'http://127.0.0.1:3000',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
+    //baseURL: 'https://thrive.thrive-dev.com/api/v1',
     trace: 'on-first-retry',
     headless : false,
   },
