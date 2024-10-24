@@ -9,11 +9,19 @@
   "description": "",
   "devDependencies": {
     "@playwright/test": "^1.48.1",
+<<<<<<< Updated upstream
     "@types/node": "^22.7.9"
   },
   "dependencies": {
     "dotenv": "^16.4.5",
     "thrive_auto_api": "file:",
     "typescript": "^5.6.3"
+=======
+    "@types/node": "^22.7.6"
+  },
+  "dependencies": {
+    "playwright": "^1.48.1",
+    "thrive_auto_api": "file:"
+>>>>>>> Stashed changes
   }
 }
