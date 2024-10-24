@@ -2,6 +2,7 @@ import { test, expect } from "@playwright/test";
 import { apiLoginusername, apiPassword } from "../../utils/config-utils";
 import { generateRandomString } from "../../utils/common-utils";
 import { customerApi, loginApi } from "../../utils/Apis";
+import exp from "constants";
 
 test("Create, Update, and Delete Customer with Randomized Name", async ({
   request,
@@ -43,7 +44,7 @@ test("Create, Update, and Delete Customer with Randomized Name", async ({
     },
   };
 
-  console.log("Create Customer Payload:", createCustomerPayload);
+  // console.log("Create Customer Payload:", createCustomerPayload);
 
   const createCustomerResponse = await request.post(createCustomerUrl, {
     data: createCustomerPayload,
@@ -53,13 +54,23 @@ test("Create, Update, and Delete Customer with Randomized Name", async ({
     },
   });
 
-  console.log("Create Response Status:", createCustomerResponse.status());
-  console.log("Create Response Body:", await createCustomerResponse.json());
+  // console.log("Create Response Status:", createCustomerResponse.status());
+  // console.log("Create Response Body:", await createCustomerResponse.json());
 
-  expect(createCustomerResponse.status()).toBe(201); // Ensure the customer was created successfully
+  expect(createCustomerResponse.status()).toBe(201);
 
   const createCustomerResponseBody = await createCustomerResponse.json();
   const customerId = createCustomerResponseBody.id;
+  // Assertions for response body properties
+  expect(createCustomerResponseBody).toHaveProperty("id");
+  expect(createCustomerResponseBody).toHaveProperty("createdAt");
+  expect(createCustomerResponseBody).toHaveProperty("updatedAt");
+  expect(createCustomerResponseBody).toHaveProperty("subdomain");
+  expect(createCustomerResponseBody).toHaveProperty("name");
+  expect(createCustomerResponseBody).toHaveProperty("status");
+
+  // Assertion for customer status
+  expect(createCustomerResponseBody.status).toHaveProperty("name", "Pending");
 
   // Step 3: Update (PATCH) the created customer
   const updateCustomerUrl = `${customerApi}${customerId}`;
@@ -70,7 +81,7 @@ test("Create, Update, and Delete Customer with Randomized Name", async ({
     },
   };
 
-  console.log("Update Customer Payload:", updateCustomerPayload);
+  // console.log("Update Customer Payload:", updateCustomerPayload);
 
   const updateCustomerResponse = await request.patch(updateCustomerUrl, {
     data: updateCustomerPayload,
@@ -80,10 +91,34 @@ test("Create, Update, and Delete Customer with Randomized Name", async ({
     },
   });
 
-  console.log("Update Response Status:", updateCustomerResponse.status());
-  console.log("Update Response Body:", await updateCustomerResponse.json());
+  // console.log("Update Response Status:", updateCustomerResponse.status());
+  // console.log("Update Response Body:", await updateCustomerResponse.json());
 
   expect(updateCustomerResponse.status()).toBe(200); // Ensure the customer was updated successfully
+  // Assertions for response body properties
+  const updateResponseBody = await updateCustomerResponse.json();
+  expect(updateResponseBody).toHaveProperty("id");
+  expect(updateResponseBody).toHaveProperty("createdAt");
+  expect(updateResponseBody).toHaveProperty("updatedAt");
+  expect(updateResponseBody).toHaveProperty("subdomain");
+  expect(updateResponseBody).toHaveProperty("name");
+  expect(updateResponseBody).toHaveProperty("status");
+  expect(updateResponseBody).toHaveProperty("parentCustomer");
+  expect(updateResponseBody).toHaveProperty("customerType");
+  expect(updateResponseBody).toHaveProperty("customerCategory");
+
+  // Assertions for nested objects
+  expect(updateResponseBody.parentCustomer).toHaveProperty("id");
+  expect(updateResponseBody.parentCustomer).toHaveProperty("name");
+
+  expect(updateResponseBody.customerType).toHaveProperty("id");
+  expect(updateResponseBody.customerType).toHaveProperty("name");
+
+  expect(updateResponseBody.customerCategory).toHaveProperty("id");
+  expect(updateResponseBody.customerCategory).toHaveProperty("name");
+
+  expect(updateResponseBody.status).toHaveProperty("id");
+  expect(updateResponseBody.status).toHaveProperty("name");
 
   // Step 4: Delete the created customer
   const deleteCustomerUrl = `https://thrive.thrive-dev.com/api/v1/customers/${customerId}`;

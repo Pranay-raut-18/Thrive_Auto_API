@@ -34,8 +34,23 @@ test("Get All Customers by type and Validate Response", async ({ request }) => {
       Authorization: `Bearer ${authToken}`,
     },
   });
-  console.log("data -->", customersResponse);
 
-  console.log("response :", customersResponse.status());
   expect(customersResponse.status()).toBe(200);
+
+  const customersResponseBody = await customersResponse.json();
+  //console.log(customersResponseBody); // Log the response body for debugging
+
+  // Assertions for response body
+  const responseData = customersResponseBody.data;
+
+  // Assertion: Response contains at least one Customer Type
+  expect(responseData).toBeInstanceOf(Array);
+  expect(responseData.length).toBeGreaterThan(0);
+
+  // Assertion: Data array contains objects with id and name properties
+  responseData.forEach((item: any) => {
+    expect(item).toHaveProperty("id");
+    expect(item).toHaveProperty("name");
+    expect(item).toHaveProperty("tag");
+  });
 });
