@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { apiPassword, apiTestLogin } from "../../utils/config-utils";
+import { apiLoginusername, apiPassword } from "../../utils/config-utils";
 import { generateRandomString } from "../../utils/common-utils";
 import { customerApi, loginApi } from "../../utils/Apis";
 
@@ -11,7 +11,7 @@ test("Create, Update, and Delete Customer with Randomized Name", async ({
   const loginResponse = await request.post(loginUrl, {
     data: {
       user: {
-        username: apiTestLogin,
+        username: apiLoginusername,
         password: apiPassword,
       },
     },
@@ -95,6 +95,5 @@ test("Create, Update, and Delete Customer with Randomized Name", async ({
   });
 
   console.log("Delete Response Status:", deleteCustomerResponse.status());
-
-  expect(deleteCustomerResponse.status()).toBe(204); // Ensure the customer was deleted successfully
+  expect(deleteCustomerResponse.status()).toBe(204);
 });

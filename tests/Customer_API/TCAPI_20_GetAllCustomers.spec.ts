@@ -1,5 +1,9 @@
 import { test, expect } from "@playwright/test";
-import { apiPassword, apiTestLogin, apiUrl } from "../../utils/config-utils";
+import {
+  apiLoginusername,
+  apiPassword,
+  apiUrl,
+} from "../../utils/config-utils";
 import { customerApi } from "../../utils/Apis";
 
 test("Get All Customers and Validate Response", async ({ request }) => {
@@ -8,7 +12,7 @@ test("Get All Customers and Validate Response", async ({ request }) => {
   const loginResponse = await request.post(loginUrl, {
     data: {
       user: {
-        username: apiTestLogin,
+        username: apiLoginusername,
         password: apiPassword,
       },
     },

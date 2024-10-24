@@ -4,11 +4,9 @@ import {
   apiPassword,
   apiUrl,
 } from "../../utils/config-utils";
-import { customerApi } from "../../utils/Apis";
+import { customerTypeapi } from "../../utils/Apis";
 
-test("Get All Customers through invalid input and Validate Response", async ({
-  request,
-}) => {
+test("Get All Customers by type and Validate Response", async ({ request }) => {
   // Step 1: Login to obtain the authentication token
   const loginUrl = apiUrl;
   const loginResponse = await request.post(loginUrl, {
@@ -22,19 +20,22 @@ test("Get All Customers through invalid input and Validate Response", async ({
       "Content-Type": "application/json",
     },
   });
-  // Ensure the login was successful
-  expect(loginResponse.status()).toBe(200);
+
+  expect(loginResponse.status()).toBe(200); // Ensure the login was successful
 
   const loginResponseBody = await loginResponse.json();
   const authToken = loginResponseBody.token;
 
   // Step 2: Get all customers
-  const customersUrl = customerApi + "invalid";
-  const customersResponse = await request.get(customersUrl, {
+  const customersTypeUrl = customerTypeapi;
+  const customersResponse = await request.get(customersTypeUrl, {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${authToken}`,
     },
   });
-  expect(customersResponse.status()).toBe(404);
+  console.log("data -->", customersResponse);
+
+  console.log("response :", customersResponse.status());
+  expect(customersResponse.status()).toBe(200);
 });

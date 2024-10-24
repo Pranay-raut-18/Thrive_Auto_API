@@ -8,5 +8,5 @@ export const EmailAddress1 = "qatesting+vihm@thrivetrm.com";
 export const Password1 = "Changeme1$";
 
 export const apiUrl = "https://thrive.thrive-dev.com/api/v1/login";
-export const apiTestLogin = "qatesting+charly@thrivetrm.com";
+export const apiLoginusername = "qatesting+charly@thrivetrm.com";
 export const apiPassword = "Changeme1$";
