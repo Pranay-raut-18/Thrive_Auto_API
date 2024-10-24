@@ -1,9 +1,14 @@
 import { test, expect } from "@playwright/test";
-// import {getCompleteTimestamp} from "../../utils/common-utils"
-import { timeStamp } from "console";
 import { randomBytes } from "crypto";
 
-test("should create and delete a person", async ({ request }) => {
+// Function to generate a random email address
+function generateRandomEmail() {
+  const randomString = randomBytes(4).toString('hex'); // Generates a random string
+  const timestamp = Date.now(); // Adds a timestamp for extra uniqueness
+  return `test_${randomString}_${timestamp}@example.com`; // Combines them into a unique email
+}
+
+test("TCAPI_03 Verify Adding and Deleting a Person Profile", async ({ request }) => {
   // Step 1: Login to obtain the authentication token
   const loginUrl = "https://thrive.thrive-qa.com/api/v1/login";
   const loginResponse = await request.post(loginUrl, {
@@ -26,6 +31,9 @@ test("should create and delete a person", async ({ request }) => {
   // Step 2: Use the token to create a new person
   const createPersonUrl = "https://thrive.thrive-qa.com/api/v1/people";
 
+  // Generate a random email for this person
+  const randomEmail = generateRandomEmail();
+
   // Define the request body
   const requestBody = {
     person: {
@@ -34,7 +42,7 @@ test("should create and delete a person", async ({ request }) => {
       educations: [],
       emails: [
         {
-          email: `testdata${}@gmail.com`,
+          email: `testdata@gmail.com`,
           primary: true,
           type: null,
         },
@@ -70,7 +78,7 @@ test("should create and delete a person", async ({ request }) => {
     data: requestBody,
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${authToken}`, // Add the token to the headers
+      Authorization: `Bearer ${authToken}`, // Add the token to the headers
     },
   });
 
@@ -94,7 +102,7 @@ test("should create and delete a person", async ({ request }) => {
   // Send a DELETE request to the delete person endpoint
   const deleteResponse = await request.delete(deletePersonUrl, {
     headers: {
-      "Authorization": `Bearer ${authToken}`, // Add the token to the headers
+      Authorization: `Bearer ${authToken}`, // Add the token to the headers
     },
   });
 

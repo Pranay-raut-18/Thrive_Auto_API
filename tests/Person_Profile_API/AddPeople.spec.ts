@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-test("should create a new person", async ({ request }) => {
+test.skip("should create a new person", async ({ request }) => {
   // Step 1: Login to obtain the authentication token
   const loginUrl = "https://thrive.thrive-qa.com/api/v1/login";
   const loginResponse = await request.post(loginUrl, {
